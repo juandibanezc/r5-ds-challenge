@@ -1,0 +1,11 @@
+*.pyc
+*.pyo
+*.pyd
+*.ipynb
+data/
+README.md
+__pycache__
+.pytest_cache
+.ipynb_checkpoints/
+*.json
+Dockerfile
