@@ -83,19 +83,17 @@ def run_training_pipe() -> Tuple[str, int]:
       app.logger.info("Tunning hyperparameters for best model")
       tuned_best_model = tune_model(best_model, n_iter = 10, fold = 10, optimize = 'AUC', search_library = "scikit-optimize", search_algorithm = "bayesian", choose_better = True)
 
-      app.logger.info("Average metrics of the cross validation tunnig of the best model")
+      app.logger.info("Displaying average metrics of the cross validation tunnig of the best model")
       model_metrics = pull()
       metrics = model_metrics.loc['Mean']
       print(model_metrics.loc['Mean'])
-      app.logger.info(f"{metrics}")
 
       app.logger.info("Predicting unseen data for validation")
       predictions = predict_model(tuned_best_model, data=data_unseen, raw_score=True)
 
-      app.logger.info("Metrics for the validation data")
+      app.logger.info("Displaying metrics for the validation data")
       validation_metrics = pull()
       print(validation_metrics)
-      app.logger.info(f"{validation_metrics}")
 
       app.logger.info("Training model on the whole dataset")
       final_model = finalize_model(tuned_best_model)
@@ -112,6 +110,6 @@ def run_training_pipe() -> Tuple[str, int]:
       return "Training completed!" , 200
       
     except Exception as e:
-      app.logger.info(f'Catched an exception during training of the model: {e}')
+      app.logger.error(f'Catched an exception during training of the model: {e}')
       return "Training failed!" , 500
     
