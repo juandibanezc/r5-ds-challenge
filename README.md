@@ -43,7 +43,8 @@
 5.  Automatice su pipeline de entrenamiento en el archivo  _train.py_, imprimiendo por consola las métricas o exportando los principales hallazgos. Exporte el modelo y lo guarda en la carpeta  _./models_. En el archivo  _predict.py_  escriba el pipeline de predicción, pruébelo con el caso particular que usted desee e imprima por consola este caso y su probabilidad predicha.
 
 	**Resuelto en los archivos indicados, en conjunto con los archivos adicionales app.py y main.py, por medio del Framework Flask de Python, para poder recibir requests por parte del usuario final y así se ejecuten los pipeline de entrenamiento y de predicción.**
-	**- El endpoint */training* ejecuta el pipeline de entrenamiento, imprimiendo las metricas en consola y exportando los archivos pkl del modelo.**
+	
+  **- El endpoint */training* ejecuta el pipeline de entrenamiento, imprimiendo las metricas en consola y exportando los archivos pkl del modelo.**
 
 	![training_console](./data/training_console.png)
 
@@ -54,7 +55,7 @@
 	![prediction_response](./data/prediction_response.png)
 
 	**Para utilizar el modelo en local sigue los siguientes pasos:**
-	1. Clona el repositorio en tu computador.**
+	1. Clona el repositorio en tu computador.
 	2. Instala las librerias necesarias que se encuentran enlistadas en el archivo *requirements.txt*
 	3. Modifica los siguientes archivos como se indica en las imagenes:
 
@@ -76,14 +77,19 @@
 	**Para hacer el deploy a producción se propone utilizar un proveedor de servicios en la nube en el cual se pueda montar toda la infraestructura serverless en la cual correría el modelo; en este caso el proveedor sería [Google Cloud Platform](https://cloud.google.com/).**
 	
 	**Componentes:**
-	**- Base de datos: La base de datos PostgreSQL se montó en una instancia del servicio Cloud SQL. Esta permite ser consultada por la API por medio de una IP privada y del uso del servicio Serverless VPC Network de GCP.**
-	**- API: EL microservicio o API en el que corre el modelo se construyó utilizando del framework Flask de Python. El repositorio del codigo se encuentra alojado en GitHub, el cual posteriormente es usado por el servicio Cloud Run en conjunto con un Dockerfile para crear la app con implementación continua, la cual recibe los request del usuario final.**
-	**- Storage: Para almacenar los archivos .pkl relacionados al modelo se hizo uso del servicio Cloud Storage.**
+
+	- **Base de datos: La base de datos PostgreSQL se montó en una instancia del servicio Cloud SQL. Esta permite ser consultada por la API por medio de una IP privada y del uso del servicio Serverless VPC Network de GCP.**
+
+  - **API: EL microservicio o API en el que corre el modelo se construyó utilizando del framework Flask de Python. El repositorio del codigo se encuentra alojado en GitHub, el cual posteriormente es usado por el servicio Cloud Run en conjunto con un Dockerfile para crear la app con implementación continua, la cual recibe los request del usuario final.**
+
+  - **Storage: Para almacenar los archivos .pkl relacionados al modelo se hizo uso del servicio Cloud Storage.**
 
 	![training_infrastructure](./data/training_infrastructure.png)
+
 	**El usuario realiza un request al endpoint */training*, con el cual el API consulta a la base de datos para obtener los datos de entrenamiento, posteriormente ejecuta el pipeline de entrenamiento, y finalmente guarda los archivos .pkl relacionados al modelo.**
 
 	![prediction_infrastructure](./data/prediction_infrastructure.png)
+
 	**El usuario realiza un request al endpoint */prediction*, con el cual el API carga el modelo a partir de los archivos .pkl, posteriormente ejecuta el pipeline de predicción, y finalmente entrega los resultados de la predicción en formato JSON.**
 
 	**Bonus point:**
