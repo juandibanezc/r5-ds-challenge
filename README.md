@@ -44,23 +44,31 @@
 
 	**Resuelto en los archivos indicados, en conjunto con los archivos adicionales app.py y main.py, por medio del Framework Flask de Python, para poder recibir requests por parte del usuario final y así se ejecuten los pipeline de entrenamiento y de predicción.**
 	**- El endpoint */training* ejecuta el pipeline de entrenamiento, imprimiendo las metricas en consola y exportando los archivos pkl del modelo.**
+
 	![training_console](./data/training_console.png)
+
 	**- El endpoint */prediction* ejecuta el pipeline de predicción, imprimiendo las predicciones en consola y retornando a su vez las predicciones como un json en el response.** 
+
 	![prediction_console](./data/prediction_console.png)
+
 	![prediction_response](./data/prediction_response.png)
 
 	**Para utilizar el modelo en local sigue los siguientes pasos:**
-	**1. Clona el repositorio en tu computador.**
-	**2. Instala las librerias necesarias que se encuentran enlistadas en el archivo *requirements.txt*** 
-	**3. Modifica los siguientes archivos como se indica en las imagenes:**
+	1. Clona el repositorio en tu computador.**
+	2. Instala las librerias necesarias que se encuentran enlistadas en el archivo *requirements.txt*
+	3. Modifica los siguientes archivos como se indica en las imagenes:
+
 		![prediction_local](./data/prediction_local.png)
+		
 		![training_local](./data/training_local.png)
-	**4. Inicia la app de Flask corriendo el archivo main.py.**
-	**5. Realiza un request a localhost o http://127.0.0.1:8080 para probar los endpoints. (En el bonus point al final del archivo se presentan requests de prueba a cada endpoint.)**
+		
+	4. Inicia la app de Flask corriendo el archivo main.py.
+	5. Realiza un request a localhost o http://127.0.0.1:8080 para probar los endpoints. (En el bonus point al final del archivo se presentan requests de prueba a cada endpoint.)
 
 6.  Comenta como utilizaría el negocio este modelo para reducir las perdidas por fraude, como lo evaluarías frente a las necesidades del negocio (diferente a las métricas ya usadas).
 
 	**El modelo de predicción de fraude creado permite diferenciar si un caso nuevo se encuentra dentro de los casos conocidos de fraude con cierto grado de confianza estadístico. De esta manera, el negocio puede identificar qué casos tienen mayor probabilidad de ser fraudulentos para proceder a investigarlos a fondo y así evitar perdidas monetarias, justificando que los datos relacionados al accidente reportado no son veridicos y por tanto el seguro no debe cubrirlo.**
+	
 	**Para evaluar el modelo frente a las necesidades del cliente guardaría los datos historicos de predicciones que el modelo haya realizado para poder compararlos con los verdictos reales que se concluyeron sobre los accidentes involucrados. Con estos datos se pueden calcular metricas como "Perdidas evitadas ($)" y "Fraudes evitados (Q)".**
 
 7.  Comenta como podrías hacer deploy de este modelo a producción: Con que tecnologías y en que infraestrúctura. Bonus points: Montalo.
