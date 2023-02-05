@@ -1,6 +1,8 @@
 from imblearn.combine import SMOTEENN
 from pycaret.classification import *
+from google.cloud import storage
 from dotenv import load_dotenv
+from datetime import datetime
 from typing import Tuple
 from app import app
 import psycopg2
@@ -10,6 +12,7 @@ import os
 
 load_dotenv()
 t0 = time.time()
+today = datetime.now().strftime('%Y%m%dT%H%M%S')
 
 def run_training_pipe() -> Tuple[str, int]:
     app.logger.info("Starting training")
@@ -99,11 +102,15 @@ def run_training_pipe() -> Tuple[str, int]:
       final_model = finalize_model(tuned_best_model)
      
       app.logger.info('Saving model')
-      with open('./models/model.pkl','wb') as f:
-        f.write(pickle.dumps(final_model))
+      storage_client = storage.Client()
+      bucket = storage_client.bucket('grupor5-fraud-detection')
+      blob = bucket.blob(f'models/model_{today}.pkl')
+      blob.upload_from_string(data=pickle.dumps(final_model))
 
       app.logger.info('Saving setup configuration')
       save_config('./models/model_setup.pkl')
+      blob = bucket.blob(f'model_setup/model_setup_{today}.pkl')
+      blob.upload_from_filename('./models/model_setup.pkl')
 
       t1 = time.time()
       app.logger.info(f'Training completed after {round(t1 - t0)} seconds')

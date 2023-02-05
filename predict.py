@@ -2,8 +2,9 @@ from pycaret.classification import *
 from typing import Tuple
 from app import app
 import pickle
-import json
+import gcsfs
 import time
+
 
 t0 = time.time()
 
@@ -15,11 +16,14 @@ def run_prediction_pipe(request) -> Tuple[dict, int]:
       df = pd.DataFrame.from_dict(request_data)
 
       app.logger.info("Loading pipeline setup")
-      with open("./models/model_setup.pkl", "rb") as f:
+      fs = gcsfs.GCSFileSystem()
+      file = fs.ls('grupor5-fraud-detection/model_setup')[-1]
+      with fs.open(file, "rb") as f:
         s = load_config(f)
       
       app.logger.info("Loading trained model")
-      with open("./models/model.pkl", "rb") as f:
+      file = fs.ls('grupor5-fraud-detection/models')[-1]
+      with fs.open(file, "rb") as f:
         model = pickle.load(f)
     
       app.logger.info("Making predictions")
