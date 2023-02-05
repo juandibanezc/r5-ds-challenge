@@ -102,15 +102,24 @@ def run_training_pipe() -> Tuple[str, int]:
       final_model = finalize_model(tuned_best_model)
      
       app.logger.info('Saving model')
+      # Cloud
       storage_client = storage.Client()
       bucket = storage_client.bucket('grupor5-fraud-detection')
       blob = bucket.blob(f'models/model_{today}.pkl')
       blob.upload_from_string(data=pickle.dumps(final_model))
 
+      # Local
+      # with open('./models/model.pkl','wb') as f:
+      #   f.write(pickle.dumps(final_model))
+
       app.logger.info('Saving setup configuration')
+      # Cloud
       save_config('./models/model_setup.pkl')
       blob = bucket.blob(f'model_setup/model_setup_{today}.pkl')
       blob.upload_from_filename('./models/model_setup.pkl')
+
+      # Local
+      # save_config('./models/model_setup.pkl')
 
       t1 = time.time()
       app.logger.info(f'Training completed after {round(t1 - t0)} seconds')
@@ -119,4 +128,3 @@ def run_training_pipe() -> Tuple[str, int]:
     except Exception as e:
       app.logger.error(f'Catched an exception during training of the model: {e}')
       return "Training failed!" , 500
-    
