@@ -19,11 +19,11 @@ def run_training_pipe() -> Tuple[str, int]:
 
     try:
       app.logger.info("Running query to PostgreSQL database")
-      conn = psycopg2.connect(database="juan-database",
-                        host="34.132.75.146",
-                        user="postgres",
-                        password=os.environ.get('PASSWORD'),
-                        port="5432")
+      conn = psycopg2.connect(database=os.environ.get('DB_NAME'),
+                        host=os.environ.get('DB_HOST'),
+                        user=os.environ.get('DB_USER'),
+                        password=os.environ.get('DB_PASSWORD'),
+                        port=os.environ.get('DB_PORT'))
 
       query = """ SELECT 
                     policynumber AS id,
